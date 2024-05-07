@@ -1,4 +1,4 @@
-const port = 4000;
+const port = process.env.port||4000;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -26,7 +26,7 @@ app.get("/",(req,res)=>{
 // Image storage Engine
 
 const storage = multer.diskStorage({
-    destination: './backend/upload/images',
+    destination: './upload/images',
     filename:(req,file,cb)=>{
         return cb(null,`${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
     }
@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage:storage})
 
 // Creating end point for images
-app.use('/images',express.static('backend/upload/images'))
+app.use('/images',express.static('upload/images'))
 
 app.post("/upload",upload.single('product'),(req,res)=>{
     res.json({
