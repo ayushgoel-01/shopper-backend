@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+require('dotenv').config()
 
 app.use(express.json());
 app.use(cors({
@@ -14,7 +15,7 @@ app.use(cors({
 
 // Database connection with MongoDb
 
-mongoose.connect("mongodb+srv://ayushgoel01:8307422309@cluster0.tbc4rmq.mongodb.net/e-commerce");
+mongoose.connect(process.env.mongo);
 
 
 // API Creation
@@ -40,7 +41,8 @@ app.use('/images',express.static('upload/images'))
 app.post("/upload",upload.single('product'),(req,res)=>{
     res.json({
         success:1,
-        image_url:`http://localhost:${port}/images/${req.file.filename}`
+        // image_url:`http://localhost:${port}/images/${req.file.filename}`
+                image_url:`https://shopper-backend-cj9h.onrender.com/images/${req.file.filename}`
     })
 })
 
@@ -280,7 +282,7 @@ app.post('/getcart',fetchUser,async (req,res)=>{
 
 app.listen(port,(error)=>{
     if(!error){
-        console.log("Server Running on Port "+port);
+        console.log("Server Running on Por "+port);
     }
     else{
         console.log("Error : "+error);
